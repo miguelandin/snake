@@ -1,14 +1,24 @@
 #include "LinkedList.h"
+#include "Coordinates.h"
+#include <iostream>
 
-LinkedList::LinkedList() { list = nullptr; };
+LinkedList::LinkedList() {
+  list = nullptr;
+  length = 0;
+}
 
-Node *LinkedList::getNextNode(Node *node) { return node->next; }
+int LinkedList::getLength() { return this->length; }
 
-Coordinates LinkedList::getCoordinates(Node *node) { return node->coords; }
+Coordinates LinkedList::getCoords(int index) {
+  Node *temp = list;
+  for (int i = 0; i < index && i < length - 1; i++)
+    temp = temp->next;
+
+  return temp->coords;
+}
 
 void LinkedList::update(const Coordinates &c) {
-  Node *last = list->prev;
-  Node *temp = last;
+  Node *temp = list->prev;
 
   while (temp != list) {
     temp->coords = temp->prev->coords;
@@ -19,9 +29,39 @@ void LinkedList::update(const Coordinates &c) {
 }
 
 void LinkedList::insert(const Coordinates &c) {
-  Node *newNode = new Node(c, list, list->prev);
-  list->prev = newNode;
-  list = newNode;
+  if (list == nullptr) {
+    list = new Node(c);
+    list->next = list;
+    list->prev = list;
+  } else {
+    Node *tail = list->prev;
+    Node *newNode = new Node(c, list, tail);
+    list->prev = newNode;
+    tail->next = newNode;
+    list = newNode;
+  }
+  length++;
+}
+
+void LinkedList::printContent() {
+  Node *temp = list;
+
+  do {
+    std::cout << "[" << temp->coords.x << ", " << temp->coords.y << "]";
+    temp = temp->next;
+  } while (temp != list);
+  std::cout << std::endl;
+}
+
+void LinkedList::forEach(std::function<void(Coordinates)> action) {
+  if (list == nullptr)
+    return;
+
+  Node *temp = list;
+  do {
+    action(temp->coords);
+    temp = temp->next;
+  } while (temp != list);
 }
 
 LinkedList::~LinkedList() {
@@ -40,4 +80,5 @@ LinkedList::~LinkedList() {
   }
 
   list = nullptr;
+  length = 0;
 }
