@@ -1,6 +1,5 @@
+#pragma once
 #include "LinkedList.h"
-#include "Coordinates.h"
-#include <iostream>
 
 LinkedList::LinkedList() {
   list = nullptr;
@@ -8,6 +7,8 @@ LinkedList::LinkedList() {
 }
 
 int LinkedList::getLength() { return this->length; }
+
+Coordinates LinkedList::getFirstCoords() { return list->coords; }
 
 Coordinates LinkedList::getCoords(int index) {
   Node *temp = list;

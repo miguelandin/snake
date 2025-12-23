@@ -2,6 +2,7 @@
 #include "Coordinates.h"
 #include "Nodo.h"
 #include <functional>
+#include <iostream>
 
 class LinkedList {
   int length;
@@ -17,6 +18,8 @@ public:
   void printContent();
 
   int getLength();
+
+  Coordinates getFirstCoords();
 
   Coordinates getCoords(int index);
 
