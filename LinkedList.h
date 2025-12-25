@@ -19,11 +19,11 @@ public:
 
   int getLength();
 
-  Coordinates getFirstCoords();
+  Coordinates getHeadCoords() const;
 
   Coordinates getCoords(int index);
 
-  void forEach(std::function<void(Coordinates)> action);
+  void forEach(const std::function<void(Coordinates)> &action) const;
 
   ~LinkedList();
 };

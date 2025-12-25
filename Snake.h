@@ -14,9 +14,11 @@ class Snake {
 public:
   Snake();
 
+  Snake(const LinkedList &list, Direction direction);
+
   void setDirection(Direction direction);
 
-  bool havesColision();
+  bool hasColision();
 
   void move(const Coordinates &fruit);
 
@@ -24,5 +26,7 @@ public:
 
   int getScore();
 
-  Coordinates getHeadCoords();
+  Coordinates getHeadCoords() const;
+
+  void forEach(const std::function<void(Coordinates)> &action) const;
 };

@@ -1,19 +1,11 @@
 #include "Coordinates.h"
-#include "LinkedList.h"
-#include <iostream>
-
-void printStuff(Coordinates c) { std::cout << c.x << ", " << c.y << std::endl; }
+#include "Renderer.h"
+#include "Snake.h"
 
 int main() {
-  LinkedList *list = new LinkedList();
-  list->insert(Coordinates(1, 1));
-  list->printContent();
-  list->update(Coordinates(4, 2));
-  list->insert(Coordinates(9, 9));
-  list->insert(Coordinates(9, 9));
-  list->insert(Coordinates(9, 9));
-  list->insert(Coordinates(9, 9));
-  list->insert(Coordinates(9, 9));
-  list->insert(Coordinates(9, 9));
-  list->forEach(printStuff);
+  RenderConfig defaultTheme = {40,  20,  'O', 'o', '@', '|',
+                               '-', '#', '#', '#', '#', ' '};
+  Snake snake = Snake();
+  Renderer renderer = Renderer(defaultTheme);
+  renderer.render(snake, Coordinates(10, 20));
 }

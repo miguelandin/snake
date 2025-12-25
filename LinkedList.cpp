@@ -1,14 +1,10 @@
-#pragma once
 #include "LinkedList.h"
 
-LinkedList::LinkedList() {
-  list = nullptr;
-  length = 0;
-}
+LinkedList::LinkedList() : list(nullptr), length(0) {}
 
 int LinkedList::getLength() { return this->length; }
 
-Coordinates LinkedList::getFirstCoords() { return list->coords; }
+Coordinates LinkedList::getHeadCoords() const { return list->coords; }
 
 Coordinates LinkedList::getCoords(int index) {
   Node *temp = list;
@@ -54,7 +50,7 @@ void LinkedList::printContent() {
   std::cout << std::endl;
 }
 
-void LinkedList::forEach(std::function<void(Coordinates)> action) {
+void LinkedList::forEach(const std::function<void(Coordinates)> &action) const {
   if (list == nullptr)
     return;
 

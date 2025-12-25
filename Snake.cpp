@@ -1,13 +1,9 @@
 #include "Snake.h"
-#include "Coordinates.h"
-#include "LinkedList.h"
 
-Snake::Snake() {
-  direction = LEFT;
-  lastDirection = LEFT;
-  body = LinkedList();
-  body.insert(Coordinates(0, 0));
-}
+Snake::Snake() : Snake(LinkedList(), LEFT) { body.insert(Coordinates()); }
+
+Snake::Snake(const LinkedList &list, Direction direction)
+    : body(list), direction(direction), lastDirection(direction) {}
 
 void Snake::setDirection(Direction direction) {
   if (this->lastDirection + direction != 0)
@@ -15,7 +11,7 @@ void Snake::setDirection(Direction direction) {
 }
 
 void Snake::move(const Coordinates &fruit) {
-  Coordinates newHead = body.getFirstCoords();
+  Coordinates newHead = body.getHeadCoords();
 
   switch (direction) {
   case UP:
@@ -35,8 +31,8 @@ void Snake::move(const Coordinates &fruit) {
   performStep(newHead, fruit);
 }
 
-bool Snake::havesColision() {
-  Coordinates head = body.getFirstCoords();
+bool Snake::hasColision() {
+  Coordinates head = body.getHeadCoords();
   bool colision = false;
   int i = 0;
   body.forEach([&](Coordinates c) {
@@ -54,7 +50,7 @@ void Snake::warp(const Coordinates &newLocation, const Coordinates &fruit) {
 
 int Snake::getScore() { return body.getLength(); }
 
-Coordinates Snake::getHeadCoords() { return body.getFirstCoords(); }
+Coordinates Snake::getHeadCoords() const { return body.getHeadCoords(); }
 
 void Snake::performStep(const Coordinates &head, const Coordinates &fruit) {
   if (head == fruit)
@@ -63,4 +59,8 @@ void Snake::performStep(const Coordinates &head, const Coordinates &fruit) {
     body.update(head);
 
   lastDirection = direction;
+}
+
+void Snake::forEach(const std::function<void(Coordinates)> &action) const {
+  body.forEach(action);
 }
