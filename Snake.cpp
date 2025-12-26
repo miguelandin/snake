@@ -1,8 +1,7 @@
 #include "Snake.h"
-#include "Coordinates.h"
 
 Snake::Snake(const Coordinates &startCoords)
-    : direction(LEFT), lastDirection(LEFT) {
+    : direction(Direction::LEFT), lastDirection(Direction::LEFT) {
   body.insert(startCoords);
 }
 
@@ -10,7 +9,7 @@ Snake::Snake(const LinkedList &list, Direction direction)
     : body(list), direction(direction), lastDirection(direction) {}
 
 void Snake::setDirection(Direction direction) {
-  if (this->lastDirection + direction != 0)
+  if (static_cast<int>(this->lastDirection) + static_cast<int>(direction) != 0)
     this->direction = direction;
 }
 
@@ -18,16 +17,16 @@ void Snake::move(const Coordinates &fruit) {
   Coordinates newHead = body.getHeadCoords();
 
   switch (direction) {
-  case UP:
+  case Direction::UP:
     newHead.y--;
     break;
-  case DOWN:
+  case Direction::DOWN:
     newHead.y++;
     break;
-  case LEFT:
+  case Direction::LEFT:
     newHead.x--;
     break;
-  case RIGHT:
+  case Direction::RIGHT:
     newHead.x++;
     break;
   }

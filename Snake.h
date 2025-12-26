@@ -2,7 +2,7 @@
 #include "Coordinates.h"
 #include "LinkedList.h"
 
-enum Direction { UP = 1, DOWN = -1, LEFT = 2, RIGHT = -2 };
+enum class Direction { UP = 1, DOWN = -1, LEFT = 2, RIGHT = -2 };
 
 class Snake {
   Direction direction;
