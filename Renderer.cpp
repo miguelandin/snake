@@ -71,7 +71,7 @@ void Renderer::render(const Snake &snake, const Coordinates &fruit) {
   for (int row = 0; row <= config.height; row++) {
     for (int col = 0; col <= config.width; col++) {
       unsigned char id = (unsigned char)map[row][col];
-      ss << rendererCache[id];
+      ss << rendererCache[id] << rendererCache[id];
     }
     ss << '\n';
   }

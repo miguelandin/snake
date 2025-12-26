@@ -9,7 +9,7 @@ class Snake {
   Direction lastDirection;
   LinkedList body;
 
-  void performStep(const Coordinates &head, const Coordinates &fruit);
+  bool performStep(const Coordinates &head, const Coordinates &fruit);
 
 public:
   Snake(const Coordinates &startCoords);
@@ -20,9 +20,9 @@ public:
 
   bool hasColision();
 
-  void move(const Coordinates &fruit);
+  bool move(const Coordinates &fruit);
 
-  void warp(const Coordinates &newLocation, const Coordinates &fruit);
+  bool warp(const Coordinates &newLocation, const Coordinates &fruit);
 
   int getScore();
 

@@ -1,11 +1,8 @@
-#include "Coordinates.h"
-#include "Renderer.h"
-#include "Snake.h"
+#include "Game.h"
 
-RenderConfig theme = {60, 20, "●", "o", "★", "║", "═", "╔", "╗", "╚", "╝", " "};
+RenderConfig theme = {40, 20, "█", "█", "█", "║", "═", "╔", "╗", "╚", "╝", " "};
 
 int main() {
-  Snake snake = Snake(Coordinates(theme.width / 2, theme.height / 2));
-  Renderer renderer = Renderer(theme);
-  renderer.render(snake, Coordinates(10, 10));
+  Game game = Game(theme);
+  game.play();
 }

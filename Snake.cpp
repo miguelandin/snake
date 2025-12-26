@@ -13,7 +13,7 @@ void Snake::setDirection(Direction direction) {
     this->direction = direction;
 }
 
-void Snake::move(const Coordinates &fruit) {
+bool Snake::move(const Coordinates &fruit) {
   Coordinates newHead = body.getHeadCoords();
 
   switch (direction) {
@@ -31,7 +31,7 @@ void Snake::move(const Coordinates &fruit) {
     break;
   }
 
-  performStep(newHead, fruit);
+  return performStep(newHead, fruit);
 }
 
 bool Snake::hasColision() {
@@ -47,21 +47,26 @@ bool Snake::hasColision() {
   return colision;
 }
 
-void Snake::warp(const Coordinates &newLocation, const Coordinates &fruit) {
-  performStep(newLocation, fruit);
+bool Snake::warp(const Coordinates &newLocation, const Coordinates &fruit) {
+  return performStep(newLocation, fruit);
 }
 
 int Snake::getScore() { return body.getLength(); }
 
 Coordinates Snake::getHeadCoords() const { return body.getHeadCoords(); }
 
-void Snake::performStep(const Coordinates &head, const Coordinates &fruit) {
-  if (head == fruit)
+bool Snake::performStep(const Coordinates &head, const Coordinates &fruit) {
+  bool isEating = false;
+
+  if (head == fruit) {
     body.insert(head);
-  else
+    isEating = true;
+  } else
     body.update(head);
 
   lastDirection = direction;
+
+  return isEating;
 }
 
 void Snake::forEach(const std::function<void(Coordinates)> &action) const {
