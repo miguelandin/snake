@@ -12,7 +12,7 @@ class Snake {
   void performStep(const Coordinates &head, const Coordinates &fruit);
 
 public:
-  Snake();
+  Snake(const Coordinates &startCoords);
 
   Snake(const LinkedList &list, Direction direction);
 

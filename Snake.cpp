@@ -1,6 +1,10 @@
 #include "Snake.h"
+#include "Coordinates.h"
 
-Snake::Snake() : Snake(LinkedList(), LEFT) { body.insert(Coordinates()); }
+Snake::Snake(const Coordinates &startCoords)
+    : direction(LEFT), lastDirection(LEFT) {
+  body.insert(startCoords);
+}
 
 Snake::Snake(const LinkedList &list, Direction direction)
     : body(list), direction(direction), lastDirection(direction) {}

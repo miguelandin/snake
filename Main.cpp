@@ -2,10 +2,10 @@
 #include "Renderer.h"
 #include "Snake.h"
 
+RenderConfig theme = {60, 20, "●", "o", "★", "║", "═", "╔", "╗", "╚", "╝", " "};
+
 int main() {
-  RenderConfig defaultTheme = {40,  20,  'O', 'o', '@', '|',
-                               '-', '#', '#', '#', '#', ' '};
-  Snake snake = Snake();
-  Renderer renderer = Renderer(defaultTheme);
-  renderer.render(snake, Coordinates(10, 20));
+  Snake snake = Snake(Coordinates(theme.width / 2, theme.height / 2));
+  Renderer renderer = Renderer(theme);
+  renderer.render(snake, Coordinates(10, 10));
 }
