@@ -20,9 +20,7 @@ public:
 
   bool hasColision();
 
-  bool move(const Coordinates &fruit);
-
-  bool warp(const Coordinates &newLocation, const Coordinates &fruit);
+  bool move(const Coordinates &fruit, int height, int width);
 
   int getScore();
 

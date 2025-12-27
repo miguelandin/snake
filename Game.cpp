@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Coordinates.h"
 #include <unistd.h>
 
 Game::Game(const RenderConfig &config)
@@ -15,10 +16,11 @@ Coordinates Game::spawnFruit() {
 
 void Game::play() {
   Coordinates fruit = spawnFruit();
+  Coordinates warp;
   while (!snake.hasColision()) {
     renderer.render(snake, fruit);
     input.setInput(snake);
-    if (snake.move(fruit))
+    if (snake.move(fruit, config.height, config.width))
       fruit = spawnFruit();
     usleep(sleepTime);
   }
