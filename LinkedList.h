@@ -17,11 +17,9 @@ public:
 
   void printContent();
 
-  int getLength();
+  int getLength() const;
 
   Coordinates getHeadCoords() const;
-
-  Coordinates getCoords(int index);
 
   void forEach(const std::function<void(Coordinates)> &action) const;
 

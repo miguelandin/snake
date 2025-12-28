@@ -1,9 +1,14 @@
 #include "Input.h"
-#include "Snake.h"
-#include <termios.h>
-#include <unistd.h>
 
-Input::Input() {
+Input::Input(char up, char down, char left, char right, char press, char exit) {
+
+  keyMap = {{std::tolower(up), Action::UP},
+            {std::tolower(down), Action::DOWN},
+            {std::tolower(left), Action::LEFT},
+            {std::tolower(right), Action::RIGHT},
+            {std::tolower(press), Action::PRESS},
+            {std::tolower(exit), Action::EXIT}};
+
   tcgetattr(STDIN_FILENO, &oldSettings);
   newSettings = oldSettings;
 
@@ -16,29 +21,41 @@ Input::Input() {
 
 Input::~Input() { tcsetattr(STDIN_FILENO, TCSANOW, &oldSettings); }
 
-Action Input::setInput(Snake &snake) {
+void Input::setInput(const Snake &snake) {
   char key;
-  if (read(STDIN_FILENO, &key, 1) <= 0)
+
+  while (read(STDIN_FILENO, &key, 1) > 0) {
+    char lowerKey = std::tolower(key);
+
+    if (keyMap.find(lowerKey) == keyMap.end())
+      continue;
+
+    Action newAction = keyMap[lowerKey];
+
+    if (newAction == Action::EXIT || newAction == Action::PRESS) {
+      actionQueue.push_front(newAction);
+      continue;
+    }
+
+    Action lastAction;
+
+    if (!actionQueue.empty()) {
+      lastAction = actionQueue.back();
+    } else {
+      lastAction = static_cast<Action>(snake.getDirection());
+    }
+
+    if (newAction != lastAction) {
+      actionQueue.push_back(newAction);
+    }
+  }
+}
+
+Action Input::getNextAction() {
+  if (actionQueue.empty())
     return Action::NOTHING;
 
-  switch (std::tolower(key)) {
-  case 'w':
-    snake.setDirection(Direction::UP);
-    return Action::MOVE;
-  case 's':
-    snake.setDirection(Direction::DOWN);
-    return Action::MOVE;
-  case 'a':
-    snake.setDirection(Direction::LEFT);
-    return Action::MOVE;
-  case 'd':
-    snake.setDirection(Direction::RIGHT);
-    return Action::MOVE;
-  case 'q':
-    return Action::EXIT;
-  case ' ':
-    return Action::PRESS;
-  default:
-    return Action::NOTHING;
-  }
+  Action next = actionQueue.front();
+  actionQueue.pop_front();
+  return next;
 }

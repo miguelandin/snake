@@ -22,7 +22,9 @@ public:
 
   bool move(const Coordinates &fruit, int height, int width);
 
-  int getScore();
+  int getScore() const;
+
+  Direction getDirection() const;
 
   Coordinates getHeadCoords() const;
 

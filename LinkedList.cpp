@@ -2,17 +2,9 @@
 
 LinkedList::LinkedList() : list(nullptr), length(0) {}
 
-int LinkedList::getLength() { return this->length; }
+int LinkedList::getLength() const { return this->length; }
 
 Coordinates LinkedList::getHeadCoords() const { return list->coords; }
-
-Coordinates LinkedList::getCoords(int index) {
-  Node *temp = list;
-  for (int i = 0; i < index && i < length - 1; i++)
-    temp = temp->next;
-
-  return temp->coords;
-}
 
 void LinkedList::update(const Coordinates &c) {
   Node *temp = list->prev;

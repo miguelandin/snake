@@ -1,9 +1,11 @@
 #include "Game.h"
 #include "Coordinates.h"
+#include "Snake.h"
+#include <cctype>
 #include <unistd.h>
 
 Game::Game(const RenderConfig &config)
-    : input(), config(config),
+    : input('w', 's', 'a', 'd', ' ', 'q'), config(config),
       snake(Coordinates(config.width / 2, config.height / 2)), renderer(config),
       isPaused(false), rng(std::random_device{}()) {}
 
@@ -16,12 +18,51 @@ Coordinates Game::spawnFruit() {
 
 void Game::play() {
   Coordinates fruit = spawnFruit();
-  Coordinates warp;
+  bool paused = false;
+
   while (!snake.hasColision()) {
     renderer.render(snake, fruit);
     input.setInput(snake);
-    if (snake.move(fruit, config.height, config.width))
-      fruit = spawnFruit();
+
+    if (!paused) {
+      Action nextAction = input.getNextAction();
+      switch (nextAction) {
+      case Action::UP:
+        snake.setDirection(Direction::UP);
+        break;
+      case Action::DOWN:
+        snake.setDirection(Direction::DOWN);
+        break;
+      case Action::LEFT:
+        snake.setDirection(Direction::LEFT);
+        break;
+      case Action::RIGHT:
+        snake.setDirection(Direction::RIGHT);
+        break;
+      case Action::PRESS:
+        paused = !paused;
+        break;
+      case Action::NOTHING:
+        break;
+      case Action::EXIT:
+        return;
+      }
+
+      if (snake.move(fruit, config.height, config.width))
+        fruit = spawnFruit();
+    } else {
+      Action nextAction = input.getNextAction();
+      switch (nextAction) {
+      case Action::PRESS:
+        paused = !paused;
+        break;
+      case Action::EXIT:
+        return;
+      default:
+        break;
+      }
+    }
+
     usleep(sleepTime);
   }
 }

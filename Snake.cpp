@@ -13,7 +13,7 @@ void Snake::setDirection(Direction direction) {
     this->direction = direction;
 }
 
-bool Snake::move(const Coordinates &fruit, int height, int widht) {
+bool Snake::move(const Coordinates &fruit, int height, int width) {
   Coordinates newHead = body.getHeadCoords();
 
   switch (direction) {
@@ -31,10 +31,10 @@ bool Snake::move(const Coordinates &fruit, int height, int widht) {
     break;
   }
 
-  if (newHead.x >= widht)
+  if (newHead.x >= width)
     newHead.x = 1;
   else if (newHead.x <= 0)
-    newHead.x = widht - 1;
+    newHead.x = width - 1;
   else if (newHead.y >= height)
     newHead.y = 1;
   else if (newHead.y <= 0)
@@ -56,7 +56,9 @@ bool Snake::hasColision() {
   return colision;
 }
 
-int Snake::getScore() { return body.getLength(); }
+int Snake::getScore() const { return body.getLength(); }
+
+Direction Snake::getDirection() const { return direction; }
 
 Coordinates Snake::getHeadCoords() const { return body.getHeadCoords(); }
 
