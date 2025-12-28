@@ -1,11 +1,9 @@
 #include "Game.h"
-#include "Coordinates.h"
-#include "Snake.h"
-#include <cctype>
-#include <unistd.h>
+#include <unordered_map>
 
-Game::Game(const RenderConfig &config)
-    : input('w', 's', 'a', 'd', ' ', 'q'), config(config),
+Game::Game(const RenderConfig &config,
+           const std::unordered_map<char, Action> &controls)
+    : input(controls), config(config),
       snake(Coordinates(config.width / 2, config.height / 2)), renderer(config),
       isPaused(false), rng(std::random_device{}()) {}
 

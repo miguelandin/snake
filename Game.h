@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Snake.h"
 #include <random>
+#include <unordered_map>
 
 class Game {
   Input input;
@@ -17,7 +18,8 @@ class Game {
   Coordinates spawnFruit();
 
 public:
-  Game(const RenderConfig &config);
+  Game(const RenderConfig &config,
+       const std::unordered_map<char, Action> &controls);
 
   void play();
 };

@@ -1,14 +1,7 @@
 #include "Input.h"
 
-Input::Input(char up, char down, char left, char right, char press, char exit) {
-
-  keyMap = {{std::tolower(up), Action::UP},
-            {std::tolower(down), Action::DOWN},
-            {std::tolower(left), Action::LEFT},
-            {std::tolower(right), Action::RIGHT},
-            {std::tolower(press), Action::PRESS},
-            {std::tolower(exit), Action::EXIT}};
-
+Input::Input(const std::unordered_map<char, Action> &customMap)
+    : keyMap(customMap) {
   tcgetattr(STDIN_FILENO, &oldSettings);
   newSettings = oldSettings;
 

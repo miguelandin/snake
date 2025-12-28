@@ -17,12 +17,12 @@ enum class Action {
 };
 
 class Input {
-  struct termios oldSettings, newSettings;
-  std::deque<Action> actionQueue;
   std::unordered_map<char, Action> keyMap;
+  std::deque<Action> actionQueue;
+  struct termios oldSettings, newSettings;
 
 public:
-  Input(char up, char down, char left, char right, char press, char exit);
+  Input(const std::unordered_map<char, Action> &customMap);
 
   ~Input();
 
